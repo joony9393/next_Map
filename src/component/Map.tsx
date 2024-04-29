@@ -1,7 +1,6 @@
 /*global kakao*/
-
+import { Dispatch, SetStateAction } from "react";
 import Script from "next/script";
-import * as stores from "@/data/store_data.json";
 
 declare global {
   interface Window {
@@ -12,7 +11,11 @@ declare global {
 const DEFAULT_LAT = 37.497625203;
 const DEFAULT_LNG = 127.03088379;
 
-export default function Map() {
+interface MapProps {
+  setMap: Dispatch<SetStateAction<any>>;
+}
+
+export default function Map({ setMap }: MapProps) {
   const loadKakaoMap = () => {
     window.kakao.maps.load(() => {
       const mapContainter = document.getElementById("map");
@@ -22,22 +25,7 @@ export default function Map() {
       };
       const map = new window.kakao.maps.Map(mapContainter, mpaOption);
 
-      //식당 데이터 마커 띄우기
-      stores?.["DATA"]?.map((store) => {
-        // 마커가 표시될 위치입니다
-        var markerPosition = new window.kakao.maps.LatLng(
-          store?.y_dnts,
-          store?.x_cnts
-        );
-
-        // 마커를 생성합니다
-        var marker = new window.kakao.maps.Marker({
-          position: markerPosition,
-        });
-
-        // 마커가 지도 위에 표시되도록 설정합니다
-        marker.setMap(map);
-      });
+      setMap(map);
     });
   };
   return (
