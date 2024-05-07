@@ -8,6 +8,13 @@ export interface StoreType {
   category?: string | null;
   storeType?: string | null;
   foodCertifyName?: string | null;
+  likes?: LikeInterface[];
+}
+
+export interface LikeInterface {
+  id: number;
+  storeId: number;
+  userId: number;
 }
 
 export interface StoreApiResponse {
@@ -15,4 +22,15 @@ export interface StoreApiResponse {
   totalPage?: number;
   totalCount?: number;
   page?: number;
+}
+
+export interface LocationType {
+  lat?: string | null;
+  lng?: string | null;
+  zoom?: number;
+}
+
+export interface SearchType {
+  q?: string;
+  district?: string;
 }

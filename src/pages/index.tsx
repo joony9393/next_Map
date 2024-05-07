@@ -2,19 +2,15 @@ import Map from "@/component/Map";
 import Markers from "@/component/Markers";
 import StoreBox from "@/component/StoreBox";
 import { StoreType } from "@/interface";
-import { useState } from "react";
 
 import axios from "axios";
 
 export default function Home({ stores }: { stores: StoreType[] }) {
-  const [map, setMap] = useState(null);
-  const [currentStore, setCureentStore] = useState(null);
-
   return (
     <>
-      <Map setMap={setMap} />
-      <Markers stores={stores} map={map} setCureentStore={setCureentStore} />
-      <StoreBox store={currentStore} setStore={setCureentStore} />
+      <Map />
+      <Markers stores={stores} />
+      <StoreBox />
     </>
   );
 }

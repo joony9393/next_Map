@@ -19,13 +19,12 @@ const prisma = new PrismaClient();
 //     const res = await prisma.store.create({
 //       data: storeData,
 //     });
-
 //     console.log(res);
 //   });
 // }
 
 async function main() {
-  //   await seedData();
+  // await seedData();
 }
 
 main()

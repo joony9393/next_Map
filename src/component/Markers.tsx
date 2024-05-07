@@ -1,13 +1,17 @@
+import { currentStoreState, locationState, mapState } from "@/atom";
 import { StoreType } from "@/interface";
-import { useEffect, Dispatch, SetStateAction, useCallback } from "react";
+import { useEffect, useCallback } from "react";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 interface MarkerProps {
-  map: any;
   stores: StoreType[];
-  setCureentStore: Dispatch<SetStateAction<any>>;
 }
 
-export default function Markers({ map, stores, setCureentStore }: MarkerProps) {
+export default function Markers({ stores }: MarkerProps) {
+  const map = useRecoilValue(mapState);
+  const setCurrentStore = useSetRecoilState(currentStoreState);
+  const [location, setLocation] = useRecoilState(locationState);
+
   const loadKakaoMarkers = useCallback(() => {
     if (map) {
       //식당 데이터 마커 띄우기
@@ -65,11 +69,17 @@ export default function Markers({ map, stores, setCureentStore }: MarkerProps) {
 
         // 선택한 가게 저장
         window.kakao.maps.event.addListener(marker, "click", function () {
-          setCureentStore(store);
+          setCurrentStore(store);
+          setLocation({
+            ...location,
+            lat: store?.lat,
+            lng: store?.lng,
+          });
         });
       });
     }
-  }, [map, setCureentStore, stores]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [map, stores]);
   useEffect(() => {
     loadKakaoMarkers();
   }, [loadKakaoMarkers, map]);
