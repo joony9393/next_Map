@@ -1,6 +1,7 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import prisma from "@/db";
+
 import GoogleProvider from "next-auth/providers/google";
 import NaverProvider from "next-auth/providers/naver";
 import KakaoProvider from "next-auth/providers/kakao";
@@ -31,7 +32,6 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/users/login",
   },
-  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     session: ({ session, token }) => ({
       ...session,

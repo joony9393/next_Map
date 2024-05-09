@@ -6,7 +6,7 @@ import axios from "axios";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./auth/[...nextauth]";
 
-interface ResponseType {
+interface Responsetype {
   page?: string;
   limit?: string;
   q?: string;
@@ -18,11 +18,11 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<StoreApiResponse | StoreType[] | StoreType | null>
 ) {
-  const { page = "", limit = "", q, district, id }: ResponseType = req.query;
+  const { page = "", limit = "", q, district, id }: Responsetype = req.query;
   const session = await getServerSession(req, res, authOptions);
 
   if (req.method === "POST") {
-    //데이터 생성를 처리한다
+    // 데이터 생성을 처리한다
     const formData = req.body;
     const headers = {
       Authorization: `KakaoAK ${process.env.KAKAO_CLIENT_ID}`,
@@ -41,7 +41,7 @@ export default async function handler(
 
     return res.status(200).json(result);
   } else if (req.method === "PUT") {
-    //데이터 수정을 처리한다
+    // 데이터 수정을 처리한다
     const formData = req.body;
     const headers = {
       Authorization: `KakaoAK ${process.env.KAKAO_CLIENT_ID}`,
@@ -61,10 +61,12 @@ export default async function handler(
 
     return res.status(200).json(result);
   } else if (req.method === "DELETE") {
-    //데이터 삭제를 처리한다.
+    // 데이터 삭제
     if (id) {
       const result = await prisma.store.delete({
-        where: { id: parseInt(id) },
+        where: {
+          id: parseInt(id),
+        },
       });
 
       return res.status(200).json(result);
@@ -85,8 +87,6 @@ export default async function handler(
         skip: skipPage * 10,
       });
 
-      // totalpage, data, page
-
       res.status(200).json({
         page: parseInt(page),
         data: stores,
@@ -95,6 +95,7 @@ export default async function handler(
       });
     } else {
       const { id }: { id?: string } = req.query;
+
       const stores = await prisma.store.findMany({
         orderBy: { id: "asc" },
         where: {
@@ -106,6 +107,7 @@ export default async function handler(
           },
         },
       });
+
       return res.status(200).json(id ? stores[0] : stores);
     }
   }
