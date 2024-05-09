@@ -7,18 +7,19 @@ import { StoreType } from "@/interface";
 import Loader from "@/component/Loader";
 import Map from "@/component/Map";
 import Marker from "@/component/Marker";
+import { toast } from "react-toastify";
 
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { toast } from "react-toastify";
 import Like from "@/component/Like";
 import Comments from "@/component/comments";
 
-export default function StoreDetailPage({
-  params,
-}: {
+interface ParamsProps {
   params: { id: string };
-}) {
+  searchParams: { page: string };
+}
+
+export default function StorePage({ params, searchParams }: ParamsProps) {
   const router = useRouter();
   const id = params.id;
   const { status } = useSession();
@@ -33,7 +34,7 @@ export default function StoreDetailPage({
     isFetching,
     isSuccess,
     isError,
-  } = useQuery(`store=${id}`, fetchStore, {
+  } = useQuery<StoreType>(`store-${id}`, fetchStore, {
     enabled: !!id,
     refetchOnWindowFocus: false,
   });
@@ -169,7 +170,7 @@ export default function StoreDetailPage({
             <Map lat={store?.lat} lng={store?.lng} zoom={1} />
             <Marker store={store} />
           </div>
-          <Comments storeId={store.id} />
+          <Comments storeId={store.id} page={searchParams.page} />
         </>
       )}
     </>
