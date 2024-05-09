@@ -1,5 +1,6 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
+import type { Adapter } from "next-auth/adapters";
 import prisma from "@/db";
 
 import GoogleProvider from "next-auth/providers/google";
@@ -12,7 +13,7 @@ export const authOptions: NextAuthOptions = {
     maxAge: 60 * 60 * 24,
     updateAge: 60 * 60 * 2,
   },
-  adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(prisma) as Adapter,
   // Configure one or more authentication providers
   providers: [
     // ...add more providers here
@@ -49,4 +50,5 @@ export const authOptions: NextAuthOptions = {
   },
 };
 
-export default NextAuth(authOptions);
+const handler = NextAuth(authOptions);
+export { handler as GET, handler as POST };
