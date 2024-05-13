@@ -6,6 +6,7 @@ import { LikeApiResponse, LikeInterface } from "@/interface";
 import axios from "axios";
 import { useQuery } from "react-query";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import Pagination from "@/component/Pagination";
 
 export default function LikesPage() {
@@ -50,11 +51,13 @@ export default function LikesPage() {
           </div>
         )}
       </ul>
-      <Pagination
-        total={likes?.totalPage}
-        page={page}
-        pathname="/users/likes"
-      />
+      <Suspense>
+        <Pagination
+          total={likes?.totalPage}
+          page={page}
+          pathname="/users/likes"
+        />
+      </Suspense>
     </div>
   );
 }
