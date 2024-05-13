@@ -1,7 +1,7 @@
 import "@/styles/globals.css";
 import { NextProvider, NextLayout } from "./providers";
 import { Metadata } from "next";
-import { GoogleAnalytics } from "@next/third-parties/google";
+import GoogleAnalytics from "./googleAnalytics";
 
 export const metadata: Metadata = {
   title: "NextMap",
@@ -17,9 +17,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <NextProvider>
-          {process.env.NEXT_PUBLIC_GA_ID ? (
-            <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
-          ) : null}
+          <GoogleAnalytics GA_TRACKING_ID={process.env.NEXT_PUBLIC_GA_ID} />
           <NextLayout>{children}</NextLayout>
         </NextProvider>
       </body>
