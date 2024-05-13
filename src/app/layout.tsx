@@ -1,7 +1,7 @@
 import "@/styles/globals.css";
 import { NextProvider, NextLayout } from "./providers";
 import { Metadata } from "next";
-import { GoogleAnalytics } from "@next/third-parties/google";
+import GoogleAnalytics from "./googleAnalytics";
 
 export const metadata: Metadata = {
   title: "NextMap",
