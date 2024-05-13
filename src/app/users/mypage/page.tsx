@@ -11,7 +11,6 @@ import { useQuery } from "react-query";
 
 export default function Mypage() {
   const searchParams = useSearchParams();
-  const { data: session } = useSession();
   const page = searchParams?.get("page") || "1";
 
   const fetchComments = async () => {
@@ -27,6 +26,7 @@ export default function Mypage() {
     fetchComments
   );
 
+  const { data: session } = useSession();
   return (
     <div className="md:max-w-5xl mx-auto px-4 py-8">
       <div className="px-4 sm:px-0">
@@ -64,7 +64,7 @@ export default function Mypage() {
                 alt="프로필 이미지"
                 width={48}
                 height={48}
-                className="rounded-full h-12 w-12"
+                className="rounded-full w-12 h-12"
                 src={session?.user.image || "/images/markers/default.png"}
               />
             </dd>
